@@ -32,10 +32,10 @@ test('POST /api/orders with a valid order returns 201 and the correct total', as
   assert.equal(typeof res.body.id, 'number');
 });
 
-test('POST /api/orders with an unknown dishId returns 404 and does not store the order', async () => {
+test('POST /api/orders with an unknown dishId returns 400 and does not store the order', async () => {
   const before = (await request(app).get('/api/orders')).body.length;
   const res = await request(app).post('/api/orders').send({ dishId: 999, quantity: 2 });
-  assert.equal(res.status, 404);
+  assert.equal(res.status, 400);
   assert.equal(typeof res.body.error, 'string');
   assert.ok(res.body.error.length > 0);
   const after = (await request(app).get('/api/orders')).body.length;
